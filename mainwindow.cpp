@@ -1,7 +1,8 @@
 
 #include "mainwindow.h"
+#include "qevent.h"
 #include "ui_mainwindow.h"
-
+#include <QKeyEvent>
 
 
 MainWindow::MainWindow(QWidget *parent)
@@ -21,7 +22,8 @@ MainWindow::~MainWindow()
 void MainWindow::initialise(){
     robot.doConnect();
     //robot.readyRead();
-    changevalue();
+    //changevalue(NULL);
+    connect(&robot, SIGNAL(updateUI(const QByteArray)),this, SLOT(changevalue(const QByteArray)));
 }
 
 
@@ -29,14 +31,14 @@ void MainWindow::initialise(){
 void MainWindow::on_avant_clicked()
 {
     qDebug("avant");
-    robot.changeDatatosend(255,0x07,120,0,120,0,0b01010000);
+    robot.changeDatatosend(255,0x07,150,0,150,0,0b01010000);
 }
 
 
 
 void MainWindow::on_droite_clicked()
 {
-    robot.changeDatatosend(255,0x07,0,0,120,0,0b01010000);
+    robot.changeDatatosend(255,0x07,120,0,120,0,0b00010000);
     qDebug("droite");
 }
 
@@ -51,22 +53,28 @@ void MainWindow::on_arriere_clicked()
 
 void MainWindow::on_gauche_clicked()
 {
-    robot.changeDatatosend(255,0x07,120,0,0,0,0b01010000);
-
+    robot.changeDatatosend(255,0x07,120,0,120,0,0b01000000);
 
     qDebug("avant");
 }
 
+void MainWindow::
 
-
-void MainWindow::changevalue()
+void MainWindow::changevalue(const QByteArray Data)
 {
-    ui->progressBar->setValue(robot.DataReceived[2]);//batterie
+
+    ui->progressBar->setValue(Data[2]);//batterie
     qDebug("test");
-    int Lspeed = -((robot.DataReceived[1] << 8) + robot.DataReceived[0]);
+    int Lspeed = ((Data[1] << 8) + Data[0]);
     if (Lspeed > 32767){ Lspeed=Lspeed-65536;};
-    ui->speedl->setValue(Lspeed/100);//speed left
+    ui->speedleft2->setValue(Lspeed);//speed left
 
+    int Rspeed = ((Data[10] << 8) + Data[9]);
+    if (Rspeed > 32767){ Lspeed=Lspeed-65536;};
+    ui->speedr->setValue(Rspeed);//speed right
+    ui->speedright2->setValue(Rspeed);
+}
 
-    ui->speedr->setValue(68);//batterie
+void MainWindow::keyPressEvent(QKeyEvent * ev) {
+    qDebug() << keyName(ev->key());
 }

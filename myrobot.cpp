@@ -29,7 +29,7 @@ void MyRobot::doConnect() {
     socket->connectToHost("192.168.1.106", 15020); // connection to wifibot
     // we need to wait...
     if(!socket->waitForConnected(5000)) {
-        qDebug() << "Error: " << socket->errorString();
+        qDebug() << "Error: " << socket->errorString();//bien penser a se connecter a wifibotlab
         return;
     }
     TimerEnvoi->start(75);
@@ -56,7 +56,6 @@ void MyRobot::readyRead() {
     qDebug() << "reading..."; // read the data from the socket
 
     DataReceived = socket->readAll();
-    qDebug(((DataReceived[1]<<8) +DataReceived[1]).toHex());
     emit updateUI(DataReceived);
     }
 

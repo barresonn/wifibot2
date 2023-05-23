@@ -24,15 +24,11 @@ public:
 
 private slots:
     void on_avant_clicked();
-
-
     void on_droite_clicked();
-
     void on_arriere_clicked();
-
     void on_gauche_clicked();
-    void changevalue();
-
+    void changevalue(const QByteArray );
+    void keyPressEvent(QKeyEvent * ev);
 
 
     //void on_progressBar_valueChanged(int value);
