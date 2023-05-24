@@ -31,7 +31,7 @@ void MainWindow::initialise(){
 void MainWindow::on_avant_clicked()
 {
     qDebug("avant");
-    robot.changeDatatosend(255,0x07,150,0,150,0,0b01010000);
+    robot.changeDatatosend(255,0x07,120,0,120,0,0b01010000);
 }
 
 
@@ -58,7 +58,6 @@ void MainWindow::on_gauche_clicked()
     qDebug("avant");
 }
 
-void MainWindow::
 
 void MainWindow::changevalue(const QByteArray Data)
 {
@@ -74,7 +73,21 @@ void MainWindow::changevalue(const QByteArray Data)
     ui->speedr->setValue(Rspeed);//speed right
     ui->speedright2->setValue(Rspeed);
 }
+bool MainWindow::eventFilter(QObject* obj, QEvent* event)
+{
+    if (event->type()==QEvent::KeyPress) {
+        QKeyEvent* key = static_cast<QKeyEvent*>(event);
+        if ( (key->key()==Qt::Key_Forward)) {
+            robot.changeDatatosend(255,0x07,120,0,120,0,0b01000000);}
+        if ( (key->key()==Qt::Key_Back)) {
+            robot.changeDatatosend(255,0x07,120,0,120,0,0b01000000);}
+        if ( (key->key()==Qt::Key_Left)) {
+            robot.changeDatatosend(255,0x07,120,0,120,0,0b01000000);}
+        if ( (key->key()==Qt::Key_Right)) {
+            robot.changeDatatosend(255,0x07,120,0,120,0,0b01000000);}
+    } else {
+        return QObject::eventFilter(obj, event);
+    }
+    return false;
 
-void MainWindow::keyPressEvent(QKeyEvent * ev) {
-    qDebug() << keyName(ev->key());
 }

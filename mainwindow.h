@@ -28,7 +28,7 @@ private slots:
     void on_arriere_clicked();
     void on_gauche_clicked();
     void changevalue(const QByteArray );
-    void keyPressEvent(QKeyEvent * ev);
+    bool eventFilter(QObject* obj, QEvent* event);
 
 
     //void on_progressBar_valueChanged(int value);

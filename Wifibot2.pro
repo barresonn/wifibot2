@@ -10,6 +10,7 @@ CONFIG += c++17
 
 SOURCES += \
     crc.cpp \
+    keyreceiver.cpp \
     main.cpp \
     mainwindow.cpp \
     myrobot.cpp
@@ -20,6 +21,7 @@ SOURCES += \
 
 HEADERS += \
     crc.h \
+    keyreceiver.h \
     mainwindow.h \
     myrobot.h
     crc.h
